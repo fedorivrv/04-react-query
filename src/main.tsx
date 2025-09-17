@@ -1,4 +1,3 @@
-
 import { createRoot } from 'react-dom/client';
 import 'modern-normalize/modern-normalize.css';
 import './index.css';
