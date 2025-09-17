@@ -36,7 +36,7 @@ function App() {
   const handleCloseModal = () => setSelectedMovie(null);
 
   useEffect(() => {
-    if (isFetched && data?.results?.length === 0) {
+    if (isFetched && (data?.results?.length ?? 0) === 0) {
       toast.error('No movies found for your request.');
     }
   }, [isFetched, data]);
@@ -48,11 +48,11 @@ function App() {
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
 
-      {!isLoading && !isError && data?.results?.length > 0 && (
+      {!isLoading && !isError && (data?.results?.length ?? 0) > 0 && (
         <>
-          {data.total_pages > 1 && (
+          {(data?.total_pages ?? 0) > 1 && (
             <ReactPaginate
-              pageCount={data.total_pages}
+              pageCount={data?.total_pages ?? 0}
               pageRangeDisplayed={5}
               marginPagesDisplayed={1}
               onPageChange={({ selected }) => setPage(selected + 1)}
@@ -63,7 +63,7 @@ function App() {
               previousLabel="←"
             />
           )}
-          <MovieGrid movies={data.results} onSelect={handleSelectMovie} />
+          <MovieGrid movies={data?.results ?? []} onSelect={handleSelectMovie} />
         </>
       )}
 
