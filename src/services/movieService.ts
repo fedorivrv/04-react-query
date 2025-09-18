@@ -1,9 +1,16 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
-import type { MovieResponse } from '../types/movie';
+import type { Movie } from '../types/movie';
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
+
+interface MovieResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
 
 if (!TOKEN) {
   throw new Error('TMDB token is missing! Please add VITE_TMDB_TOKEN to .env');
@@ -20,7 +27,7 @@ export async function fetchMovies(
   query: string,
   page: number = 1
 ): Promise<MovieResponse> {
-  const response: AxiosResponse<MovieResponse> = await api.get('/search/movie', {
+  const response: AxiosResponse<MovieResponse> = await api.get<MovieResponse>('/search/movie', {
     params: {
       query,
       page,
